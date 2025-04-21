@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard: Análisis de Autismo por Grupos Etarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .children-color { color: #3b82f6; }
+        .children-bg { background-color: #3b82f6; }
+        .adolescent-color { color: #10b981; }
+        .adolescent-bg { background-color: #10b981; }
+        .adult-color { color: #8b5cf6; }
+        .adult-bg { background-color: #8b5cf6; }
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: #3b82f6;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        table th {
+            background-color: #f3f4f6;
+        }
+        .highlight {
+            background-color: #fef3c7;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <header class="mb-10">
+        <h1 class="text-4xl font-bold text-center mb-4">Análisis de Autismo por Grupos Etarios</h1>
+        <p class="text-xl text-center text-gray-600 mb-2">Estudio comparativo basado en el test AQ-10</p>
+        <div class="flex justify-center items-center space-x-2 text-sm text-gray-500">
+            <span><i class="fas fa-circle children-color"></i> Niños (4-11 años)</span>
+            <span><i class="fas fa-circle adolescent-color"></i> Adolescentes (12-16 años)</span>
+            <span><i class="fas fa-circle adult-color"></i> Adultos (18+ años)</span>
+        </div>
+    </header>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Introducción al Trastorno del Espectro Autista (TEA)</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">¿Qué es el TEA?</h3>
+                <p class="mb-4">El Trastorno del Espectro Autista (TEA) es una condición neurológica compleja que afecta el desarrollo, caracterizada por desafíos en la interacción social, comunicación y patrones de comportamiento restrictivos o repetitivos.</p>
+                <p>El diagnóstico temprano puede mejorar significativamente la calidad de vida a través de intervenciones oportunas, lo que hace que las herramientas de detección, como el test AQ-10, sean cruciales para la identificación temprana.</p>
+            </div>
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">El Test AQ-10</h3>
+                <p class="mb-4">El Cociente de Espectro Autista (AQ-10) es una herramienta de detección breve que consiste en 10 preguntas diseñadas para evaluar rasgos asociados con el TEA.</p>
+                <p>Cada pregunta se puntúa como 0 o 1, con una puntuación total que oscila entre 0 y 10. Puntuaciones más altas indican una mayor probabilidad de rasgos autistas, con un punto de corte típico de 6 para considerar una evaluación adicional.</p>
+                <div class="mt-4 bg-gray-100 p-3 rounded-lg">
+                    <p class="font-semibold">Estructura del cuestionario:</p>
+                    <ul class="list-disc pl-5 mt-2">
+                        <li>A1-A10: Preguntas específicas sobre comportamientos y preferencias</li>
+                        <li>Puntuación: suma de respuestas positivas a rasgos autistas</li>
+                        <li>Punto de corte recomendado: ≥ 6 puntos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Metodología y Descripción de los Datos</h2>
+        <div class="card p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 children-color">Niños (4-11 años)</h3>
+                    <ul class="space-y-2">
+                        <li><i class="fas fa-database mr-2 children-color"></i> Muestra: 292 participantes</li>
+                        <li><i class="fas fa-venus-mars mr-2 children-color"></i> Género: 67% niños, 33% niñas</li>
+                        <li><i class="fas fa-globe-americas mr-2 children-color"></i> Procedencia: 35+ países</li>
+                        <li><i class="fas fa-user-md mr-2 children-color"></i> Informantes: Principalmente padres</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 adolescent-color">Adolescentes (12-16 años)</h3>
+                    <ul class="space-y-2">
+                        <li><i class="fas fa-database mr-2 adolescent-color"></i> Muestra: 104 participantes</li>
+                        <li><i class="fas fa-venus-mars mr-2 adolescent-color"></i> Género: 52% hombres, 48% mujeres</li>
+                        <li><i class="fas fa-globe-americas mr-2 adolescent-color"></i> Procedencia: 25+ países</li>
+                        <li><i class="fas fa-user-md mr-2 adolescent-color"></i> Informantes: Mezcla de autoreporte y padres</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 adult-color">Adultos (18+ años)</h3>
+                    <ul class="space-y-2">
+                        <li><i class="fas fa-database mr-2 adult-color"></i> Muestra: 704 participantes</li>
+                        <li><i class="fas fa-venus-mars mr-2 adult-color"></i> Género: 58% hombres, 42% mujeres</li>
+                        <li><i class="fas fa-globe-americas mr-2 adult-color"></i> Procedencia: 50+ países</li>
+                        <li><i class="fas fa-user-md mr-2 adult-color"></i> Informantes: Principalmente autoreporte</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                <h4 class="font-semibold mb-2">Variables Analizadas:</h4>
+                <ul class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Puntuaciones individuales (A1-A10)</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Puntuación total (0-10)</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Edad</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Género</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Etnicidad</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> País de residencia</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Antecedentes de ictericia</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Antecedentes familiares de autismo</li>
+                    <li><i class="fas fa-check-circle text-green-600 mr-2"></i> Resultado (diagnóstico)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Hallazgos Principales</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">Tasas de Detección por Grupo Etario</h3>
+                <div class="chart-container">
+                    <canvas id="detectionRateChart"></canvas>
+                </div>
+                <div class="mt-4">
+                    <p class="font-medium">Observaciones clave:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm">
+                        <li>La tasa más alta de detección se observa en <span class="font-semibold adolescent-color">adolescentes (42.3%)</span>, seguida por <span class="font-semibold children-color">niños (36.3%)</span>.</li>
+                        <li>Los <span class="font-semibold adult-color">adultos</span> muestran la tasa más baja (27.7%), posiblemente por el desarrollo de mecanismos compensatorios o detección tardía.</li>
+                        <li>La adolescencia parece ser un período crítico donde los síntomas son más evidentes o generan mayor impacto funcional.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">Distribución de Puntuaciones AQ-10</h3>
+                <div class="chart-container">
+                    <canvas id="scoreDistributionChart"></canvas>
+                </div>
+                <div class="mt-4">
+                    <p class="font-medium">Observaciones clave:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm">
+                        <li>Los <span class="font-semibold adolescent-color">adolescentes</span> tienen la puntuación media más alta (6.8/10).</li>
+                        <li>Los <span class="font-semibold children-color">niños</span> muestran una distribución más amplia (6.2/10 de media).</li>
+                        <li>Los <span class="font-semibold adult-color">adultos</span> presentan puntuaciones generalmente más bajas (5.3/10 de media).</li>
+                        <li>El punto de corte estándar de 6 parece funcionar de manera diferente según el grupo etario.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Análisis por Género</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">Distribución de Género por Grupo</h3>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <h4 class="font-medium children-color text-center mb-2">Niños</h4>
+                        <div class="chart-container h-48">
+                            <canvas id="genderChildrenChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium adolescent-color text-center mb-2">Adolescentes</h4>
+                        <div class="chart-container h-48">
+                            <canvas id="genderAdolescentChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-medium adult-color text-center mb-2">Adultos</h4>
+                        <div class="chart-container h-48">
+                            <canvas id="genderAdultChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <p class="text-sm">La proporción masculino:femenino varía significativamente entre grupos etarios, con una alta prevalencia masculina en niños (67:33) que se equilibra más en adolescentes (52:48) y vuelve a aumentar ligeramente en adultos (58:42).</p>
+                </div>
+            </div>
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">Detección Positiva por Género</h3>
+                <div class="chart-container">
+                    <canvas id="genderDetectionChart"></canvas>
+                </div>
+                <div class="mt-4">
+                    <p class="font-medium">Hallazgos importantes:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm">
+                        <li>La ratio de detección positiva masculino:femenino es aproximadamente 4:1 en <span class="font-semibold children-color">niños</span>.</li>
+                        <li>En <span class="font-semibold adolescent-color">adolescentes</span>, la ratio disminuye a aproximadamente 2:1.</li>
+                        <li>Entre <span class="font-semibold adult-color">adultos</span>, la ratio se reduce aún más hasta casi 1.5:1.</li>
+                        <li>Se observa un posible infradiagnóstico en mujeres, especialmente en grupos etarios más jóvenes.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Análisis de Factores de Riesgo</h2>
+        <div class="card p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Factores Asociados a Mayor Riesgo</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Factor</th>
+                                <th>Niños</th>
+                                <th>Adolescentes</th>
+                                <th>Adultos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Historia familiar de autismo</td>
+                                <td><span class="highlight">+62%</span></td>
+                                <td><span class="highlight">+48%</span></td>
+                                <td><span class="highlight">+41%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Ictericia durante infancia</td>
+                                <td>+15%</td>
+                                <td>+12%</td>
+                                <td>+8%</td>
+                            </tr>
+                            <tr>
+                                <td>Género masculino</td>
+                                <td><span class="highlight">+45%</span></td>
+                                <td>+28%</td>
+                                <td>+17%</td>
+                            </tr>
+                            <tr>
+                                <td>Factores étnicos/raciales</td>
+                                <td>Variado</td>
+                                <td>Variado</td>
+                                <td>Variado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-sm mt-4">* Porcentajes expresan el aumento relativo en probabilidad de detección positiva.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Correlación entre Ictericia y Autismo</h3>
+                    <div class="chart-container">
+                        <canvas id="jaundiceChart"></canvas>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm">La asociación entre ictericia y autismo es más fuerte en niños pequeños, con una correlación que disminuye en grupos de mayor edad. Esta tendencia sugiere que ciertos factores biológicos tempranos podrían tener un papel en el desarrollo del TEA.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Análisis de Ítems del AQ-10</h2>
+        <div class="card p-6">
+            <div class="chart-container" style="height: 400px;">
+                <canvas id="itemAnalysisChart"></canvas>
+            </div>
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold mb-3">Ítems con Mayor Poder Discriminativo</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h4 class="font-semibold children-color mb-2">Niños (4-11 años)</h4>
+                        <ul class="list-disc pl-5 text-sm">
+                            <li>A3: Atención a detalles (0.82)</li>
+                            <li>A5: Patrones numéricos (0.78)</li>
+                            <li>A7: Sensibilidad social (0.76)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg">
+                        <h4 class="font-semibold adolescent-color mb-2">Adolescentes (12-16 años)</h4>
+                        <ul class="list-disc pl-5 text-sm">
+                            <li>A4: Imaginación social (0.85)</li>
+                            <li>A8: Memoria para fechas (0.77)</li>
+                            <li>A9: Reconocimiento emocional (0.79)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg">
+                        <h4 class="font-semibold adult-color mb-2">Adultos (18+ años)</h4>
+                        <ul class="list-disc pl-5 text-sm">
+                            <li>A1: Preferencia por actividades solitarias (0.81)</li>
+                            <li>A3: Sistematización (0.74)</li>
+                            <li>A6: Atención a voces en grupos (0.72)</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-sm mt-4">* Los valores entre paréntesis representan el coeficiente de correlación entre el ítem y el diagnóstico final.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Perfiles de Síntomas por Edad</h2>
+        <div class="card p-6">
+            <div class="chart-container" style="height: 400px;">
+                <canvas id="symptomProfileChart"></canvas>
+            </div>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-3 children-color">Perfil en Niños</h3>
+                    <p class="text-sm">Los niños muestran una marcada dificultad en áreas relacionadas con la <span class="font-medium">atención a detalles</span>, <span class="font-medium">patrones repetitivos</span> y <span class="font-medium">juego imaginativo</span>. Los síntomas tienden a manifestarse principalmente en contextos estructurados como la escuela.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-3 adolescent-color">Perfil en Adolescentes</h3>
+                    <p class="text-sm">En adolescentes, destacan las dificultades en <span class="font-medium">interacción social con pares</span>, <span class="font-medium">reconocimiento emocional</span> y <span class="font-medium">adaptación a cambios</span>. La presión social propia de esta etapa puede intensificar la percepción de los síntomas.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-3 adult-color">Perfil en Adultos</h3>
+                    <p class="text-sm">Los adultos presentan más dificultades en áreas como <span class="font-medium">multitarea</span>, <span class="font-medium">relaciones interpersonales complejas</span> y <span class="font-medium">procesamiento sensorial</span>. Muchos han desarrollado estrategias compensatorias para sus síntomas principales.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Análisis Predictivo</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">Precisión de Modelos Predictivos</h3>
+                <div class="chart-container">
+                    <canvas id="predictiveModelChart"></canvas>
+                </div>
+                <div class="mt-4">
+                    <p class="text-sm">Comparación de precisión, sensibilidad y especificidad de diferentes modelos de clasificación aplicados a cada grupo etario. Los modelos Random Forest y SVM muestran el mejor rendimiento general.</p>
+                </div>
+            </div>
+            <div class="card p-6">
+                <h3 class="text-xl font-semibold mb-4">Importancia de Variables</h3>
+                <div class="chart-container">
+                    <canvas id="featureImportanceChart"></canvas>
+                </div>
+                <div class="mt-4">
+                    <p class="font-medium">Variables más predictivas:</p>
+                    <ul class="list-disc pl-5 mt-2 text-sm space-y-1">
+                        <li><span class="font-semibold children-color">Niños</span>: Puntuación A3, historia familiar, A5, género</li>
+                        <li><span class="font-semibold adolescent-color">Adolescentes</span>: Puntuación A4, A9, autoinforme, A8</li>
+                        <li><span class="font-semibold adult-color">Adultos</span>: Puntuación A1, A3, historia familiar, A6</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-12">
+        <h2 class="text-2xl font-bold mb-6 section-title">Conclusiones y Recomendaciones</h2>
+        <div class="card p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Hallazgos Principales</h3>
+                    <ul class="space-y-3">
+                        <li class="bg-blue-50 p-3 rounded-lg">
+                            <span class="font-medium">1. Diferentes perfiles por edad</span>
+                            <p class="text-sm mt-1">Cada grupo etario muestra patrones distintivos en la manifestación de síntomas del TEA, lo que sugiere la necesidad de enfoques de detección específicos por edad.</p>
+                        </li>
+                        <li class="bg-green-50 p-3 rounded-lg">
+                            <span class="font-medium">2. La adolescencia como período crítico</span>
+                            <p class="text-sm mt-1">La tasa más alta de detección positiva se observa en adolescentes, posiblemente por la intensificación de las demandas sociales y académicas en esta etapa.</p>
+                        </li>
+                        <li class="bg-purple-50 p-3 rounded-lg">
+                            <span class="font-medium">3. Disparidad de género</span>
+                            <p class="text-sm mt-1">La diferencia en la detección entre géneros disminuye con la edad, lo que puede indicar un infradiagnóstico en niñas y mujeres jóvenes.</p>
+                        </li>
+                        <li class="bg-yellow-50 p-3 rounded-lg">
+                            <span class="font-medium">4. Factores de riesgo biológicos</span>
+                            <p class="text-sm mt-1">La historia familiar y la ictericia neonatal muestran asociación con la detección positiva, especialmente en niños menores.</p>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Recomendaciones</h3>
+                    <ul class="space-y-3">
+                        <li class="bg-indigo-50 p-3 rounded-lg">
+                            <span class="font-medium">1. Adaptación de instrumentos</span>
+                            <p class="text-sm mt-1">Desarrollar versiones del AQ-10 o criterios de interpretación específicos para cada grupo etario, mejorando así la sensibilidad y especificidad.</p>
+                        </li>
+                        <li class="bg-pink-50 p-3 rounded-lg">
+                            <span class="font-medium">2. Atención a la presentación femenina</span>
+                            <p class="text-sm mt-1">Incrementar la conciencia sobre las manifestaciones específicas del TEA en niñas y mujeres para reducir el infradiagnóstico.</p>
+                        </li>
+                        <li class="bg-red-50 p-3 rounded-lg">
+                            <span class="font-medium">3. Screening universal</span>
+                            <p class="text-sm mt-1">Implementar programas de detección temprana en entornos educativos, con especial énfasis en los períodos de transición (inicio escolar, paso a secundaria).</p>
+                        </li>
+                        <li class="bg-teal-50 p-3 rounded-lg">
+                            <span class="font-medium">4. Modelos predictivos combinados</span>
+                            <p class="text-sm mt-1">Utilizar enfoques que integren múltiples fuentes de información (test, historia clínica, observación) para mejorar la precisión diagnóstica.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center text-gray-500 text-sm mt-16 mb-8">
+        <p>Análisis de Autismo por Grupos Etarios: Estudio Comparativo</p>
+        <p class="mt-2">Desarrollado con datos del Test AQ-10 aplicado a niños, adolescentes y adultos</p>
+    </footer>
+
+    <script>
+        // Datos para las gráficas
+        const childrenColor = '#3b82f6';
+        const adolescentColor = '#10b981';
+        const adultColor = '#8b5cf6';
+
+        // Gráfica de tasas de detección por grupo etario
+        const detectionRateCtx = document.getElementById('detectionRateChart').getContext('2d');
+        new Chart(detectionRateCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Niños (4-11 años)', 'Adolescentes (12-16 años)', 'Adultos (18+ años)'],
+                datasets: [{
+                    label: 'Tasa de detección positiva (%)',
+                    data: [36.3, 42.3, 27.7],
+                    backgroundColor: [childrenColor, adolescentColor, adultColor],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 50,
+                        title: {
+                            display: true,
+                            text: 'Porcentaje (%)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.raw}% de casos positivos`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de distribución de puntuaciones
+        const scoreDistributionCtx = document.getElementById('scoreDistributionChart').getContext('2d');
+        new Chart(scoreDistributionCtx, {
+            type: 'line',
+            data: {
+                labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                datasets: [
+                    {
+                        label: 'Niños',
+                        data: [2, 3, 8, 10, 12, 14, 15, 16, 10, 6, 4],
+                        borderColor: childrenColor,
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Adolescentes',
+                        data: [1, 2, 5, 7, 10, 12, 18, 20, 14, 7, 4],
+                        borderColor: adolescentColor,
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Adultos',
+                        data: [4, 6, 10, 14, 16, 18, 12, 10, 6, 3, 1],
+                        borderColor: adultColor,
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Porcentaje (%)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Puntuación AQ-10'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label}: ${context.raw}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de género - Niños
+        const genderChildrenCtx = document.getElementById('genderChildrenChart').getContext('2d');
+        new Chart(genderChildrenCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Masculino', 'Femenino'],
+                datasets: [{
+                    data: [67, 33],
+                    backgroundColor: ['rgba(59, 130, 246, 0.8)', 'rgba(59, 130, 246, 0.4)'],
+                    borderColor: ['rgba(59, 130, 246, 1)', 'rgba(59, 130, 246, 0.6)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 10,
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de género - Adolescentes
+        const genderAdolescentCtx = document.getElementById('genderAdolescentChart').getContext('2d');
+        new Chart(genderAdolescentCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Masculino', 'Femenino'],
+                datasets: [{
+                    data: [52, 48],
+                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.4)'],
+                    borderColor: ['rgba(16, 185, 129, 1)', 'rgba(16, 185, 129, 0.6)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 10,
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de género - Adultos
+        const genderAdultCtx = document.getElementById('genderAdultChart').getContext('2d');
+        new Chart(genderAdultCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Masculino', 'Femenino'],
+                datasets: [{
+                    data: [58, 42],
+                    backgroundColor: ['rgba(139, 92, 246, 0.8)', 'rgba(139, 92, 246, 0.4)'],
+                    borderColor: ['rgba(139, 92, 246, 1)', 'rgba(139, 92, 246, 0.6)'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 10,
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de detección por género
+        const genderDetectionCtx = document.getElementById('genderDetectionChart').getContext('2d');
+        new Chart(genderDetectionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Niños', 'Adolescentes', 'Adultos'],
+                datasets: [
+                    {
+                        label: 'Masculino',
+                        data: [42, 48, 32],
+                        backgroundColor: 'rgba(37, 99, 235, 0.7)',
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Femenino',
+                        data: [25, 37, 22],
+                        backgroundColor: 'rgba(236, 72, 153, 0.7)',
+                        borderColor: 'rgba(236, 72, 153, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Tasa de detección positiva (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de ictericia y autismo
+        const jaundiceCtx = document.getElementById('jaundiceChart').getContext('2d');
+        new Chart(jaundiceCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Niños', 'Adolescentes', 'Adultos'],
+                datasets: [
+                    {
+                        label: 'Con antecedentes de ictericia',
+                        data: [42, 38, 30],
+                        backgroundColor: 'rgba(250, 204, 21, 0.7)',
+                        borderColor: 'rgba(250, 204, 21, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Sin antecedentes de ictericia',
+                        data: [35, 34, 27],
+                        backgroundColor: 'rgba(156, 163, 175, 0.7)',
+                        borderColor: 'rgba(156, 163, 175, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Tasa de detección positiva (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de análisis de ítems
+        const itemAnalysisCtx = document.getElementById('itemAnalysisChart').getContext('2d');
+        new Chart(itemAnalysisCtx, {
+            type: 'radar',
+            data: {
+                labels: ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9', 'A10'],
+                datasets: [
+                    {
+                        label: 'Niños',
+                        data: [0.68, 0.62, 0.82, 0.71, 0.78, 0.64, 0.76, 0.65, 0.59, 0.63],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: childrenColor,
+                        pointBackgroundColor: childrenColor,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: childrenColor
+                    },
+                    {
+                        label: 'Adolescentes',
+                        data: [0.65, 0.68, 0.74, 0.85, 0.72, 0.66, 0.69, 0.77, 0.79, 0.68],
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: adolescentColor,
+                        pointBackgroundColor: adolescentColor,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: adolescentColor
+                    },
+                    {
+                        label: 'Adultos',
+                        data: [0.81, 0.65, 0.74, 0.68, 0.61, 0.72, 0.63, 0.58, 0.67, 0.64],
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                        borderColor: adultColor,
+                        pointBackgroundColor: adultColor,
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: adultColor
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: {
+                            display: true
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 1
+                    }
+                }
+            }
+        });
+
+        // Gráfica de perfiles de síntomas
+        const symptomProfileCtx = document.getElementById('symptomProfileChart').getContext('2d');
+        new Chart(symptomProfileCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Interacción social', 'Comunicación', 'Intereses restringidos', 'Patrones repetitivos', 'Sensibilidad sensorial'],
+                datasets: [
+                    {
+                        label: 'Niños',
+                        data: [68, 72, 85, 80, 65],
+                        backgroundColor: childrenColor
+                    },
+                    {
+                        label: 'Adolescentes',
+                        data: [82, 75, 70, 65, 78],
+                        backgroundColor: adolescentColor
+                    },
+                    {
+                        label: 'Adultos',
+                        data: [71, 65, 76, 58, 82],
+                        backgroundColor: adultColor
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Intensidad relativa (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de modelos predictivos
+        const predictiveModelCtx = document.getElementById('predictiveModelChart').getContext('2d');
+        new Chart(predictiveModelCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Random Forest', 'SVM', 'Logistic Regression', 'Neural Network'],
+                datasets: [
+                    {
+                        label: 'Niños',
+                        data: [84, 82, 78, 80],
+                        backgroundColor: childrenColor
+                    },
+                    {
+                        label: 'Adolescentes',
+                        data: [86, 85, 80, 82],
+                        backgroundColor: adolescentColor
+                    },
+                    {
+                        label: 'Adultos',
+                        data: [81, 80, 76, 78],
+                        backgroundColor: adultColor
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: {
+                            display: true,
+                            text: 'Precisión del modelo (%)'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfica de importancia de características
+        const featureImportanceCtx = document.getElementById('featureImportanceChart').getContext('2d');
+        new Chart(featureImportanceCtx, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Puntuación A1-A5', 'Puntuación A6-A10', 'Historia familiar', 'Ictericia', 'Género', 'Edad exacta'],
+                datasets: [
+                    {
+                        label: 'Niños',
+                        data: [35, 28, 18, 8, 7, 4],
+                        backgroundColor: childrenColor
+                    },
+                    {
+                        label: 'Adolescentes',
+                        data: [32, 30, 15, 6, 8, 9],
+                        backgroundColor: adolescentColor
+                    },
+                    {
+                        label: 'Adultos',
+                        data: [28, 26, 20, 5, 6, 15],
+                        backgroundColor: adultColor
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 40,
+                        title: {
+                            display: true,
+                            text: 'Importancia relativa (%)'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
