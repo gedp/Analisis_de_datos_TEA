@@ -56,7 +56,7 @@ Los resultados completos del análisis, junto con gráficos interactivos, se enc
 
 **Para ver el dashboard:** Simplemente descarga el repositorio y abre el archivo `index.html` o el `reporte_profiling_asd_en.html` en tu navegador web preferido.
 
-## 🚀 Aplicación Interactiva Streamlit
+## Aplicación Interactiva Streamlit 🚀
 
 ¡Explora el análisis de forma interactiva aquí! 👉 **[adata-tea-bcf.streamlit.app](https://adata-tea-bcf.streamlit.app/)**
 
