@@ -54,7 +54,7 @@ Los resultados completos del análisis, junto con gráficos interactivos, se enc
 * Comparativa de perfiles sintomáticos.
 * Rendimiento de modelos predictivos.
 
-**Para ver el dashboard:** Simplemente descarga el repositorio y abre el archivo `index.html` en tu navegador web preferido. 🖱️
+**Para ver el dashboard:** Simplemente descarga el repositorio y abre el archivo `index.html` o el `reporte_profiling_asd_en.html` en tu navegador web preferido. 🖱️
 
 ## Tecnologías Utilizadas 💻🌐
 
