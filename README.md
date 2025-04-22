@@ -54,7 +54,20 @@ Los resultados completos del análisis, junto con gráficos interactivos, se enc
 * Comparativa de perfiles sintomáticos.
 * Rendimiento de modelos predictivos.
 
-**Para ver el dashboard:** Simplemente descarga el repositorio y abre el archivo `index.html` o el `reporte_profiling_asd_en.html` en tu navegador web preferido. 🖱️
+**Para ver el dashboard:** Simplemente descarga el repositorio y abre el archivo `index.html` o el `reporte_profiling_asd_en.html` en tu navegador web preferido.
+
+## 🚀 Aplicación Interactiva Streamlit
+
+¡Explora el análisis de forma interactiva aquí! 👉 **[adata-tea-bcf.streamlit.app](https://adata-tea-bcf.streamlit.app/)**
+
+Esta aplicación web, desarrollada con Streamlit, te permite navegar y visualizar de manera dinámica los hallazgos clave de este estudio sobre el Trastorno del Espectro Autista (TEA) 🧠.
+
+**¿Qué puedes hacer en la aplicación?**
+
+* 📊 **Visualizar Datos Clave:** Explora gráficos interactivos sobre tasas de detección, distribución de puntuaciones AQ-10, análisis por género y factores de riesgo (como ictericia o historial familiar) para cada grupo etario (niños 🧒, adolescentes 🧑, adultos 👨‍👩‍👧‍👦).
+* 🔬 **Comparar Grupos:** Observa fácilmente las diferencias y similitudes en los perfiles de síntomas y la relevancia de distintas preguntas del test AQ-10 entre los diferentes grupos de edad.
+* 💡 **Entender los Resultados:** La aplicación presenta los resultados del análisis comparativo de una forma accesible y fácil de interpretar.
+* 🖥️ **Interfaz Amigable:** Interactúa con los datos y gráficos para profundizar en los aspectos que más te interesen del análisis.
 
 ## Tecnologías Utilizadas 💻🌐
 
