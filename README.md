@@ -40,7 +40,7 @@ El análisis presentado en este repositorio (visualizado a través del dashboard
 * Evaluación de factores de riesgo asociados (historia familiar de TEA, ictericia neonatal).
 * Análisis de ítems específicos del AQ-10 para determinar su poder discriminativo en cada grupo.
 * Identificación de perfiles de síntomas característicos por edad.
-* Exploración de modelos predictivos (Random Forest, SVM, etc. ⚙️) y la importancia relativa de las variables.
+* Exploración de modelos predictivos (Regresión lineal) y la importancia relativa de las variables.
 * Conclusiones principales y recomendaciones derivadas del análisis. 💡
 
 ## Visualización Interactiva (Dashboard) 🖥️✨
@@ -71,6 +71,7 @@ Esta aplicación web, desarrollada con Streamlit, te permite navegar y visualiza
 
 ## Tecnologías Utilizadas 💻🌐
 
+*Jupyter Notebook para el código en python
 * HTML5
 * CSS3 (Tailwind CSS 🎨)
 * JavaScript (Chart.js para las gráficas 📊)
