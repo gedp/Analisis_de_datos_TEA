@@ -71,7 +71,7 @@ Esta aplicación web, desarrollada con Streamlit, te permite navegar y visualiza
 
 ## Tecnologías Utilizadas 💻🌐
 
-*Jupyter Notebook para el código en python
+* Jupyter Notebook para el código en python
 * HTML5
 * CSS3 (Tailwind CSS 🎨)
 * JavaScript (Chart.js para las gráficas 📊)
