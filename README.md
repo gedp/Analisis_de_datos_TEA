@@ -58,7 +58,7 @@ Los resultados completos del análisis, junto con gráficos interactivos, se enc
 
 ## Aplicación Interactiva Streamlit 🚀
 
-¡Explora el análisis de forma interactiva aquí! 👉 <a href="https://adata-tea-bcf.streamlit.app/" target="_blank" rel="noopener noreferrer">adata-tea-bcf.streamlit.app</a>
+¡Explora el análisis de forma interactiva aquí! 👉 <a href="https://adata-tea-bcf.streamlit.app/" target="_blank" rel="noopener noreferrer">Aplicación Interactiva Streamlit</a>
 
 Esta aplicación web, desarrollada con Streamlit, te permite navegar y visualizar de manera dinámica los hallazgos clave de este estudio sobre el Trastorno del Espectro Autista (TEA) 🧠.
 
