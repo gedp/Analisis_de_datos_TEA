@@ -83,3 +83,8 @@ Los datos fueron proporcionados por Fadi Fayez Thabtah (fadi.fayez@manukau.ac.nz
 * Tabtah, F. (2017). Autism Spectrum Disorder Screening: Machine Learning Adaptation and DSM-5 Fulfillment. *Proceedings of the 1st International Conference on Medical and Health Informatics 2017*, pp.1-6. Taichung City, Taiwan, ACM.
 * Thabtah, F. (2017). *ASDTests. A mobile app for ASD screening*. Disponible en: www.asdtests.com
 * Thabtah, F. (2017). Machine Learning in Autistic Spectrum Disorder Behavioural Research: A Review. *Informatics for Health and Social Care Journal*.
+
+
+---
+Hecho con ❤️ por: [SynergyaTech](https://synergya.tech)
+
