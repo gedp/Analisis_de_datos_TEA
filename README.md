@@ -1,4 +1,4 @@
-# Análisis comparativo de detección de autismo (TEA) por grupos etarios (AQ-10) 🧩📊🧠
+# Análisis comparativo de detección del Transtorno de Espectro Autista (TEA) por grupos etarios (AQ-10) 🧩📊🧠
 
 ## Descripción ℹ️
 
