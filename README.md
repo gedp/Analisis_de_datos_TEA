@@ -1,4 +1,4 @@
-# Análisis Comparativo de Detección de Autismo (TEA) por Grupos Etarios (AQ-10) 🧩📊🧠
+# Análisis comparativo de detección de autismo (TEA) por grupos etarios (AQ-10) 🧩📊🧠
 
 ## Descripción ℹ️
 
@@ -14,21 +14,21 @@ El objetivo principal de este proyecto es investigar y visualizar cómo varían 
 
 Se busca identificar diferencias significativas y patrones específicos de cada grupo que puedan tener implicaciones para la detección temprana y el desarrollo de herramientas de screening adaptadas. 🤔
 
-## Datos Utilizados 💾📄
+## Datos utilizados 💾📄
 
 Se emplearon tres conjuntos de datos distintos, cada uno correspondiente a un grupo etario, obtenidos originalmente para la investigación sobre métodos de screening de TEA.
 
-* **Fuente Original:** Fadi Fayez Thabtah, Department of Digital Technology, Manukau Institute of Technology, Auckland, New Zealand. 🧑‍🔬
-* **Metodología Base:** Cuestionario AQ-10 (10 preguntas sobre comportamientos asociados al TEA ❓) complementado con 10 características individuales/demográficas.
+* **Fuente original:** Fadi Fayez Thabtah, Department of Digital Technology, Manukau Institute of Technology, Auckland, New Zealand. 🧑‍🔬
+* **Metodología base:** Cuestionario AQ-10 (10 preguntas sobre comportamientos asociados al TEA ❓) complementado con 10 características individuales/demográficas.
 * **Atributos:** Cada registro contiene 21 atributos 🔢, incluyendo respuestas a las 10 preguntas (A1-A10), edad, género, etnia, país, historial de ictericia al nacer, historial familiar de TEA (PDD), quién completó el test, uso previo de apps de screening, y la puntuación final del test.
-* **Tamaño de las Muestras:**
+* **Tamaño de las muestras:**
     * Niños: 292 registros
     * Adolescentes: 104 registros
     * Adultos: 704 registros
-* **Tarea Principal (en origen):** Clasificación (predicción de posible TEA).
+* **Tarea principal (en origen):** Clasificación (predicción de posible TEA).
 * **Nota:** Los conjuntos de datos originales pueden contener valores faltantes. ⚠️
 
-## Análisis Realizado 📈🔬
+## Análisis realizado 📈🔬
 
 El análisis presentado en este repositorio (visualizado a través del dashboard `index.html`) incluye:
 
@@ -43,7 +43,7 @@ El análisis presentado en este repositorio (visualizado a través del dashboard
 * Exploración de modelos predictivos (Regresión lineal) y la importancia relativa de las variables.
 * Conclusiones principales y recomendaciones derivadas del análisis. 💡
 
-## Visualización Interactiva (Dashboard) 🖥️✨
+## Visualización interactiva (Dashboard) 🖥️✨
 
 Los resultados completos del análisis, junto con gráficos interactivos, se encuentran en el archivo `index.html`. Este dashboard permite explorar visualmente:
 
@@ -56,7 +56,7 @@ Los resultados completos del análisis, junto con gráficos interactivos, se enc
 
 **Para ver el dashboard:** Simplemente descarga el repositorio y abre el archivo `index.html` o el `reporte_profiling_asd_en.html` en tu navegador web preferido.
 
-## Aplicación Interactiva Streamlit 🚀
+## Aplicación interactiva Streamlit 🚀
 
 ¡Explora el análisis de forma interactiva aquí! 👉 <a href="https://adata-tea-bcf.streamlit.app/" target="_blank" rel="noopener noreferrer">Aplicación Interactiva Streamlit</a>
 
@@ -64,19 +64,19 @@ Esta aplicación web, desarrollada con Streamlit, te permite navegar y visualiza
 
 **¿Qué puedes hacer en la aplicación?**
 
-* 📊 **Visualizar Datos Clave:** Explora gráficos interactivos sobre tasas de detección, distribución de puntuaciones AQ-10, análisis por género y factores de riesgo (como ictericia o historial familiar) para cada grupo etario (niños 🧒, adolescentes 🧑, adultos 👨‍👩‍👧‍👦).
-* 🔬 **Comparar Grupos:** Observa fácilmente las diferencias y similitudes en los perfiles de síntomas y la relevancia de distintas preguntas del test AQ-10 entre los diferentes grupos de edad.
-* 💡 **Entender los Resultados:** La aplicación presenta los resultados del análisis comparativo de una forma accesible y fácil de interpretar.
-* 🖥️ **Interfaz Amigable:** Interactúa con los datos y gráficos para profundizar en los aspectos que más te interesen del análisis.
+* 📊 **Visualizar datos claves:** Explora gráficos interactivos sobre tasas de detección, distribución de puntuaciones AQ-10, análisis por género y factores de riesgo (como ictericia o historial familiar) para cada grupo etario (niños 🧒, adolescentes 🧑, adultos 👨‍👩‍👧‍👦).
+* 🔬 **Comparar grupos:** Observa fácilmente las diferencias y similitudes en los perfiles de síntomas y la relevancia de distintas preguntas del test AQ-10 entre los diferentes grupos de edad.
+* 💡 **Entender los resultados:** La aplicación presenta los resultados del análisis comparativo de una forma accesible y fácil de interpretar.
+* 🖥️ **Interfaz amigable:** Interactúa con los datos y gráficos para profundizar en los aspectos que más te interesen del análisis.
 
-## Tecnologías Utilizadas 💻🌐
+## Tecnologías utilizadas 💻🌐
 
 * Jupyter Notebook para el código en python
 * HTML5
 * CSS3 (Tailwind CSS 🎨)
 * JavaScript (Chart.js para las gráficas 📊)
 
-## Fuente Original de los Datos y Citación 📚🙏
+## Fuente original de los datos y citación 📚🙏
 
 Los datos fueron proporcionados por Fadi Fayez Thabtah (fadi.fayez@manukau.ac.nz 📧). Si utilizas estos datos o el análisis derivado, por favor considera citar los trabajos originales del autor:
 
