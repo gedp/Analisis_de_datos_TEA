@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Aplicación Streamlit para el Análisis Exploratorio y Comparativo 
-de Datos sobre ASD en Diferentes Grupos de Edad
+Aplicación Streamlit para el Análisis exploratorio y comparativo 
+de Datos sobre ASD en diferentes grupos de edad
 
 Autor: [Gerlyn Eduardo Duarte]
 Fecha: 2025-04-21 
@@ -36,7 +36,7 @@ warnings.filterwarnings('ignore', category=FutureWarning)
 
 # --- Configuración General de la Página Streamlit ---
 st.set_page_config(
-    page_title="Análisis ASD por Grupo de Edad",
+    page_title="Análisis ASD por grupo de edad",
     page_icon="🧠", 
     layout="wide", 
     initial_sidebar_state="expanded" 
@@ -292,15 +292,15 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
     # --- Barra Lateral (Sidebar) ---
     st.sidebar.title("Navegación 🧭")
     opciones_sidebar = ["🏠 Inicio", 
-                        "📊 Exploración de Datos", 
-                        "🆚 Comparación entre Grupos", 
-                        "📄 Informe Profiling Detallado",
-                        "🤖 Modelo Predictivo (Básico)", 
-                        "💻 Código Fuente"]
+                        "📊 Exploración de datos", 
+                        "🆚 Comparación entre grupos", 
+                        "📄 Informe Profiling detallado",
+                        "🤖 Modelo predictivo (Básico)", 
+                        "💻 Código fuente"]
                         
     reporte_disponible = st.session_state.get('reporte_ok', False)                    
     if not reporte_disponible:
-         if "📄 Informe Profiling Detallado" in opciones_sidebar:
+         if "📄 Informe Profiling detallado" in opciones_sidebar:
               opciones_sidebar.remove("📄 Informe Profiling Detallado")
               
     pagina_seleccionada = st.sidebar.radio("Selecciona una sección:", options=opciones_sidebar)
@@ -339,21 +339,21 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
             else:
                  col3.metric("Casos ASD Positivos (%)", "N/A")
 
-            st.markdown("**Estadísticas Descriptivas Generales:**")
+            st.markdown("**Estadísticas descriptivas generales:**")
             try:
                 st.dataframe(df_final.describe(include='all')) 
             except Exception as e_desc:
                 st.warning(f"No se pudieron mostrar todas las estadísticas descriptivas: {e_desc}")
                 st.dataframe(df_final.describe()) 
             
-            st.markdown("**Primeras Filas de Datos Limpios:**")
+            st.markdown("**Primeras filas de datos limpios:**")
             st.dataframe(df_final.head())
         else:
             st.warning("Los datos limpios no están disponibles o están vacíos.")
 
-    # -- Sección: Exploración de Datos --
-    elif pagina_seleccionada == "📊 Exploración de Datos":
-        st.header("📊 Análisis Exploratorio de Datos (EDA)")
+    # -- Sección: Exploración de datos --
+    elif pagina_seleccionada == "📊 Exploración de datos":
+        st.header("📊 Análisis exploratorio de datos (EDA)")
         st.markdown("Exploración visual de las variables más importantes.")
 
         if 'df_final' in locals() and not df_final.empty:
@@ -361,22 +361,22 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
 
             # Edad General y por Grupo (Plotly)
             with st.container(): 
-                 st.markdown("**Distribución de Edad (General y por Grupo)**")
+                 st.markdown("**Distribución de edad (general y por grupo)**")
                  fig_edad_plotly = px.histogram(df_final, x="age", color="grupo_edad", 
                                                  marginal="box", 
                                                  histnorm='density',
                                                  barmode='overlay',
                                                  category_orders={"grupo_edad": ["Niño", "Adolescente", "Adulto"]},
-                                                 title="Distribución de Edad por Grupo (con Boxplot marginal)")
+                                                 title="Distribución de edad por grupo (con Boxplot marginal)")
                  fig_edad_plotly.update_layout(bargap=0.1)
                  st.plotly_chart(fig_edad_plotly, use_container_width=True)
 
             # Puntuación Total 'result' (Plotly)
             with st.container():
-                st.markdown("**Distribución de la Puntuación Total (result)**")
+                st.markdown("**Distribución de la puntuación total (result)**")
                 fig_result_plotly = px.histogram(df_final, x="result", nbins=11, 
-                                                title="Distribución de Puntuación Total (result)",
-                                                labels={'result':'Puntuación Total'})
+                                                title="Distribución de la puntuación total (result)",
+                                                labels={'result':'Puntuación total'})
                 fig_result_plotly.update_layout(bargap=0.2, xaxis = dict(tickmode = 'linear', dtick = 1)) 
                 st.plotly_chart(fig_result_plotly, use_container_width=True)
 
@@ -385,32 +385,32 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
 
             with col1:
                 # Diagnóstico 'Class_ASD' (Plotly)
-                st.markdown("**Distribución de Casos ASD**")
+                st.markdown("**Distribución de casos ASD**")
                 asd_labels_st = df_final['Class_ASD'].map({0: 'NO', 1: 'YES', 0.0: 'NO', 1.0: 'YES'}).fillna('Desconocido')
                 fig_asd_plotly = px.histogram(df_final, x=asd_labels_st, color=asd_labels_st,
-                                              title="Distribución de Casos ASD",
+                                              title="Distribución de casos ASD",
                                               labels={'x':'Diagnóstico ASD'},
                                               category_orders={"x": ["NO", "YES"]}) 
                 st.plotly_chart(fig_asd_plotly, use_container_width=True)
             
             with col2:
                 # Género (Plotly)
-                st.markdown("**Distribución por Género**")
+                st.markdown("**Distribución por género**")
                 fig_gender_plotly = px.histogram(df_final, x="gender", color="gender",
-                                                title="Distribución por Género")
+                                                title="Distribución por género")
                 st.plotly_chart(fig_gender_plotly, use_container_width=True)
 
-            st.subheader("Relaciones Bivariadas")
+            st.subheader("Relaciones bivariadas")
 
             # Edad vs Resultado (Plotly)
             with st.container():
-                st.markdown("**Edad vs. Puntuación Total (Coloreado por ASD)**")
+                st.markdown("**Edad vs. Puntuación total (Coloreado por ASD)**")
                 color_map = {0: 'NO', 1: 'YES', 0.0: 'NO', 1.0: 'YES'}
                 color_discrete_map_plotly = {'NO': 'rgba(50, 100, 200, 0.7)', 'YES': 'rgba(200, 50, 50, 0.7)'}
                 
                 fig_edad_result_plotly = px.scatter(df_final, x='age', y='result', 
                                                     color=df_final['Class_ASD'].map(color_map), 
-                                                    title='Edad vs. Puntuación Total',
+                                                    title='Edad vs. Puntuación total',
                                                     labels={'age': 'Edad (años)', 'result': 'Puntuación', 'color': 'ASD'},
                                                     hover_data=['grupo_edad', 'gender'], 
                                                     color_discrete_map=color_discrete_map_plotly,
@@ -419,11 +419,11 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
 
             # Resultado vs Diagnóstico (Boxplot con Plotly)
             with st.container():
-                st.markdown("**Puntuación Total por Diagnóstico ASD**")
+                st.markdown("**Puntuación total por diagnóstico ASD**")
                 fig_res_asd_plotly = px.box(df_final, x=asd_labels_st, y='result', 
                                             color=asd_labels_st,
-                                            title="Distribución de Puntuación por Diagnóstico ASD",
-                                            labels={'x': 'Diagnóstico ASD', 'result': 'Puntuación Total'},
+                                            title="Distribución de puntuación por diagnóstico ASD",
+                                            labels={'x': 'Diagnóstico ASD', 'result': 'Puntuación total'},
                                             category_orders={"x": ["NO", "YES"]}, 
                                             points="all", 
                                             color_discrete_map=color_discrete_map_plotly) 
@@ -431,7 +431,7 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
             
             # Correlación Scores (Heatmap con Plotly - CORREGIDO)
             with st.container():
-                st.markdown("**Correlación entre Scores Individuales y Resultado**")
+                st.markdown("**Correlación entre Scores individuales y resultados**")
                 score_cols = [f'A{i}_Score' for i in range(1, 11)] # Asegurar que está definida
                 columnas_scores_y_result = score_cols + ['result']
                 cols_num_exist = [col for col in columnas_scores_y_result if col in df_final.columns and pd.api.types.is_numeric_dtype(df_final[col])]
@@ -440,7 +440,7 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                      fig_corr_plotly = px.imshow(matriz_correlacion, text_auto=".2f", 
                                                   aspect="auto",
                                                   color_continuous_scale='RdBu', # <<<--- CORREGIDO AQUÍ
-                                                  title="Mapa de Calor de Correlación")
+                                                  title="Mapa de calor de correlación")
                      st.plotly_chart(fig_corr_plotly, use_container_width=True)
                 else:
                      st.warning("No se pudieron calcular correlaciones.")
@@ -449,23 +449,23 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
             st.warning("No hay datos limpios disponibles para mostrar la exploración.")
 
     # -- Sección: Comparación entre Grupos --
-    elif pagina_seleccionada == "🆚 Comparación entre Grupos":
-        st.header("🆚 Comparación Formal entre Grupos de Edad")
-        st.markdown("Análisis estadístico y visual para identificar diferencias entre Niños, Adolescentes y Adultos.")
+    elif pagina_seleccionada == "🆚 Comparación entre grupos":
+        st.header("🆚 Comparación formal entre grupos de edad")
+        st.markdown("Análisis estadístico y visual para identificar diferencias entre niños, adolescentes y adultos.")
 
         if 'df_final' in locals() and not df_final.empty:
             st.subheader("Comparación de Puntuación Total (result)")
             # Boxplot Plotly
             fig_comp_res_plotly = px.box(df_final, x='grupo_edad', y='result', 
                                          color='grupo_edad',
-                                         title="Comparación de Puntuación por Grupo de Edad",
-                                         labels={'grupo_edad': 'Grupo de Edad', 'result': 'Puntuación Total'},
+                                         title="Comparación de puntuación por grupo de edad",
+                                         labels={'grupo_edad': 'Grupo de Edad', 'result': 'Puntuación total'},
                                          category_orders={"grupo_edad": ["Niño", "Adolescente", "Adulto"]},
                                          points="all")
             st.plotly_chart(fig_comp_res_plotly, use_container_width=True)
 
             # Prueba Kruskal-Wallis
-            st.markdown("**Prueba Estadística (Kruskal-Wallis) para 'result':**")
+            st.markdown("**Prueba estadística (Kruskal-Wallis) para 'result':**")
             try:
                 group_n = df_final[df_final['grupo_edad'] == 'Niño']['result'].dropna()
                 group_a = df_final[df_final['grupo_edad'] == 'Adolescente']['result'].dropna()
@@ -484,12 +484,12 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
             except Exception as e:
                 st.error(f"Error durante la prueba Kruskal-Wallis para 'result': {e}")
 
-            st.subheader("Comparación de Diagnóstico ASD (Class_ASD)")
+            st.subheader("Comparación de diagnóstico ASD (Class_ASD)")
             # Filtramos NaNs aquí también para la prueba y tabla
             df_test_asd = df_final.dropna(subset=['Class_ASD'])
             if not df_test_asd.empty and df_test_asd['Class_ASD'].nunique() > 1: 
                 # Tabla de contingencia (proporciones)
-                st.markdown("**Tabla de Proporciones (%)**")
+                st.markdown("**Tabla de proporciones (%)**")
                 asd_map_display = {0: 'NO', 1: 'YES', 0.0: 'NO', 1.0: 'YES'}
                 tabla_contingencia_asd = pd.crosstab(df_test_asd['grupo_edad'], 
                                                      df_test_asd['Class_ASD'].map(asd_map_display), 
@@ -499,13 +499,13 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                 # Gráfico de barras agrupadas con Plotly
                 tabla_contingencia_asd_melt = tabla_contingencia_asd.reset_index().melt(id_vars='grupo_edad', var_name='Class_ASD', value_name='Porcentaje')
                 fig_comp_asd_plotly = px.bar(tabla_contingencia_asd_melt, x='grupo_edad', y='Porcentaje', color='Class_ASD',
-                                             barmode='group', title='Proporción de Diagnóstico ASD por Grupo de Edad',
+                                             barmode='group', title='Proporción de diagnóstico ASD por grupo de edad',
                                              category_orders={"grupo_edad": ["Niño", "Adolescente", "Adulto"]},
-                                             labels={'grupo_edad':'Grupo de Edad', 'Class_ASD':'Diagnóstico'})
+                                             labels={'grupo_edad':'Grupo de edad', 'Class_ASD':'Diagnóstico'})
                 st.plotly_chart(fig_comp_asd_plotly, use_container_width=True)
 
                 # Prueba Chi-Cuadrado
-                st.markdown("**Prueba Estadística (Chi-Cuadrado) para 'Class_ASD' vs 'grupo_edad':**")
+                st.markdown("**Prueba estadística (Chi-Cuadrado) para 'Class_ASD' vs 'grupo_edad':**")
                 try:
                      contingencia_asd_abs = pd.crosstab(df_test_asd['grupo_edad'], df_test_asd['Class_ASD'])
                      if contingencia_asd_abs.shape[0] > 1 and contingencia_asd_abs.shape[1] > 1: 
@@ -524,7 +524,7 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                  st.warning("No hay datos válidos o suficientes categorías en 'Class_ASD' para realizar la comparación.")
                  
             # Ejemplo comparación jundice
-            st.subheader("Comparación de Ictericia (jundice)")
+            st.subheader("Comparación de ictericia (jundice)")
             if 'jundice' in df_final.columns:
                  df_test_jundice = df_final.dropna(subset=['jundice']) 
                  if not df_test_jundice.empty and df_test_jundice['jundice'].nunique() > 1:
@@ -538,8 +538,8 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
             st.warning("No hay datos limpios disponibles para mostrar comparaciones.")
 
     # -- Sección: Informe Profiling Detallado --
-    elif pagina_seleccionada == "📄 Informe Profiling Detallado":
-        st.header("📄 Informe Detallado de ydata-profiling")
+    elif pagina_seleccionada == "📄 Informe Profiling detallado":
+        st.header("📄 Informe detallado de ydata-profiling")
         st.markdown("Informe interactivo con análisis exhaustivo de cada variable.")
         
         reporte_disponible_local = st.session_state.get('reporte_ok', False)
@@ -554,7 +554,7 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                     try:
                          with open(nombre_archivo_reporte_local, "rb") as fp:
                               st.download_button(
-                                   label="Descargar Informe HTML",
+                                   label="Descargar informe en HTML",
                                    data=fp,
                                    file_name=os.path.basename(nombre_archivo_reporte_local),
                                    mime="text/html",
@@ -571,8 +571,8 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
              st.error("El informe de perfilado no pudo ser generado.")
 
     # -- Sección: Modelo Predictivo --
-    elif pagina_seleccionada == "🤖 Modelo Predictivo (Básico)":
-        st.header("🤖 Modelo Predictivo Básico (Regresión Logística)")
+    elif pagina_seleccionada == "🤖 Modelo predictivo (Básico)":
+        st.header("🤖 Modelo predictivo básico (Regresión logística)")
         st.markdown("""
         Entrenamiento de un modelo simple para predecir `Class_ASD` basado en las 
         otras características, como demostración para el Bootcamp. 
@@ -585,7 +585,7 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                 df_modelo = df_final.dropna(subset=['Class_ASD']).copy() 
                 
                 if not df_modelo.empty and df_modelo['Class_ASD'].nunique() > 1: # Necesitamos al menos 2 clases
-                    st.subheader("Preparación de Datos")
+                    st.subheader("Preparación de datos")
                     score_cols = [f'A{i}_Score' for i in range(1, 11)] # Redefinir por si acaso
                     features = score_cols + ['age', 'jundice', 'autism_family_hist', 'gender'] 
                     target = 'Class_ASD'
@@ -620,13 +620,13 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                             st.write("Variable 'age' escalada (StandardScaler).")
 
                         # --- Entrenamiento del Modelo ---
-                        st.subheader("Entrenamiento del Modelo")
+                        st.subheader("Entrenamiento del modelo")
                         modelo = LogisticRegression(random_state=42, max_iter=1000, class_weight='balanced') 
                         modelo.fit(X_train, y_train)
-                        st.success("Modelo de Regresión Logística entrenado.")
+                        st.success("Modelo de regresión logística entrenado.")
 
                         # --- Evaluación del Modelo ---
-                        st.subheader("Evaluación del Modelo (sobre datos de prueba)")
+                        st.subheader("Evaluación del modelo (sobre datos de prueba)")
                         y_pred = modelo.predict(X_test)
                         accuracy = accuracy_score(y_test, y_pred)
                         cm = confusion_matrix(y_test, y_pred)
@@ -638,9 +638,9 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                         
                         report = classification_report(y_test, y_pred, target_names=target_names_report, zero_division=0)
 
-                        st.metric("Accuracy (Precisión General)", f"{accuracy:.2%}")
+                        st.metric("Accuracy (Precisión general)", f"{accuracy:.2%}")
                         
-                        st.markdown("**Matriz de Confusión:**")
+                        st.markdown("**Matriz de confusión:**")
                         # Usar Plotly para la matriz de confusión
                         try:
                             # Intentar obtener etiquetas correctas si ambas clases están presentes
@@ -657,7 +657,7 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
                              st.text(f"Matriz:\n{cm}")
 
 
-                        st.markdown("**Informe de Clasificación:**")
+                        st.markdown("**Informe de clasificación:**")
                         st.text(report)
                 else:
                      st.warning("No hay datos válidos con Class_ASD (o solo una clase) para entrenar/evaluar el modelo.")
@@ -669,8 +669,8 @@ if df_ninos is not None and df_adolescentes is not None and df_adultos is not No
             st.warning("No hay datos limpios disponibles para entrenar el modelo.")
 
     # -- Sección: Código Fuente --
-    elif pagina_seleccionada == "💻 Código Fuente":
-        st.header("💻 Código Fuente del Análisis")
+    elif pagina_seleccionada == "💻 Código fuente":
+        st.header("💻 Código fuente del análisis")
         st.markdown("Este es el script completo de Python utilizado para generar esta aplicación web.")
         
         try:
